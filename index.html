@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Demotrans — Spedycja & Transport</title>
+  <meta name="description" content="Demotrans — zaufany partner logistyczny w Polsce i Europie od 1996 roku."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --navy: #1a2b6d;
+      --navy-dark: #111d4a;
+      --navy-mid: #223080;
+      --red: #d63b1f;
+      --red-light: #e8542d;
+      --white: #ffffff;
+      --off: #f4f6fb;
+      --text: #1c1c2e;
+      --muted: #5a6080;
+      --card-bg: #ffffff;
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--white); overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem; height: 68px;
+      background: rgba(17, 29, 74, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: background .3s;
+    }
+    .nav-logo svg { height: 36px; width: auto; }
+    .nav-links { display: flex; gap: 2.2rem; }
+    .nav-links a {
+      color: rgba(255,255,255,0.78); font-size: 13px; font-weight: 500;
+      letter-spacing: .04em; text-transform: uppercase;
+      padding: 4px 0; border-bottom: 2px solid transparent; transition: all .2s;
+    }
+    .nav-links a:hover { color: #fff; border-bottom-color: var(--red); }
+    .lang-switch { display: flex; gap: 6px; }
+    .lang-btn {
+      background: transparent; border: 1px solid rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.6); padding: 5px 12px; border-radius: 4px;
+      cursor: pointer; font-size: 12px; font-family: 'Inter', sans-serif;
+      font-weight: 600; letter-spacing: .06em; transition: all .2s;
+    }
+    .lang-btn.active, .lang-btn:hover { background: var(--red); border-color: var(--red); color: #fff; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 60%, #1e3a8a 100%);
+      position: relative; overflow: hidden; padding: 100px 2rem 80px;
+      text-align: center;
+    }
+    .hero-grid-bg {
+      position: absolute; inset: 0; opacity: .04;
+      background-image: linear-gradient(rgba(255,255,255,.6) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.6) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-glow {
+      position: absolute; width: 700px; height: 700px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(214,59,31,.18) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      animation: pulse 4s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:.6;transform:translate(-50%,-50%) scale(1);} 50%{opacity:1;transform:translate(-50%,-50%) scale(1.08);} }
+
+    .hero-logo-wrap {
+      position: relative; z-index: 2; margin-bottom: 2.5rem;
+      animation: fadeUp .9s cubic-bezier(.16,1,.3,1) both;
+    }
+    .hero-logo-wrap svg { width: min(520px, 88vw); height: auto; filter: drop-shadow(0 8px 32px rgba(214,59,31,.35)); }
+
+    .hero-tagline {
+      position: relative; z-index: 2;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(18px, 3vw, 26px); font-weight: 400;
+      color: rgba(255,255,255,0.7); letter-spacing: .15em; text-transform: uppercase;
+      margin-bottom: 3rem;
+      animation: fadeUp .9s .15s cubic-bezier(.16,1,.3,1) both;
+    }
+
+    .hero-stats {
+      position: relative; z-index: 2;
+      display: flex; gap: 3rem; justify-content: center; flex-wrap: wrap;
+      animation: fadeUp .9s .3s cubic-bezier(.16,1,.3,1) both;
+    }
+    .hero-stat { text-align: center; }
+    .hero-stat-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 52px; font-weight: 800; color: #fff; line-height: 1;
+      display: block;
+    }
+    .hero-stat-label { font-size: 12px; color: rgba(255,255,255,.5); letter-spacing: .1em; text-transform: uppercase; margin-top: 4px; }
+    .hero-stat-divider { width: 1px; background: rgba(255,255,255,.12); align-self: stretch; }
+
+    .hero-scroll {
+      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+      z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 6px;
+      color: rgba(255,255,255,.35); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    .hero-scroll svg { width: 20px; height: 20px; }
+    @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0);} 50%{transform:translateX(-50%) translateY(6px);} }
+
+    /* Animated swoosh divider */
+    .swoosh-divider {
+      display: block; overflow: hidden; line-height: 0; height: 48px; position: relative;
+    }
+    .swoosh-divider svg { width: 100%; min-width: 900px; display: block; }
+    .swoosh-path { stroke-dasharray: 2000; stroke-dashoffset: 2000; animation: drawSwoosh 1.4s ease forwards; }
+    @keyframes drawSwoosh { to { stroke-dashoffset: 0; } }
+
+    /* ── SECTIONS ── */
+    section { padding: 96px 2rem; }
+    .section-inner { max-width: 960px; margin: 0 auto; }
+    .eyebrow {
+      display: inline-block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--red); margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(36px, 5vw, 56px); font-weight: 800;
+      color: var(--navy); line-height: 1.05; margin-bottom: 48px;
+    }
+    .section-title em { font-style: normal; color: var(--red); }
+
+    /* ── ABOUT ── */
+    #about { background: var(--off); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+    .about-body { font-size: 15.5px; line-height: 1.85; color: var(--muted); }
+    .about-body p { margin-bottom: 18px; }
+    .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px; }
+    .stat-tile {
+      background: var(--white); border-radius: 12px; padding: 24px 20px;
+      border-left: 4px solid var(--red);
+      box-shadow: 0 2px 16px rgba(26,43,109,.06);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .stat-tile:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(26,43,109,.1); }
+    .stat-tile-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 42px; font-weight: 800; color: var(--navy); line-height: 1;
+    }
+    .stat-tile-label { font-size: 12px; color: var(--muted); margin-top: 6px; letter-spacing: .04em; }
+
+    /* ── SERVICES ── */
+    #services { background: var(--white); }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .service-card {
+      background: var(--white);
+      border: 1px solid rgba(26,43,109,.09);
+      border-radius: 16px; padding: 36px 28px;
+      position: relative; overflow: hidden;
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+      box-shadow: 0 2px 12px rgba(26,43,109,.05);
+    }
+    .service-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--navy), var(--red));
+      transform: scaleX(0); transform-origin: left; transition: transform .3s ease;
+    }
+    .service-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(26,43,109,.12); border-color: rgba(26,43,109,.2); }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-icon-wrap {
+      width: 64px; height: 64px; border-radius: 14px;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 14px rgba(26,43,109,.22);
+    }
+    .service-icon-wrap svg { width: 30px; height: 30px; fill: none; stroke: white; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+    .service-card-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 22px; font-weight: 700; color: var(--navy); margin-bottom: 10px;
+    }
+    .service-card-desc { font-size: 14px; line-height: 1.7; color: var(--muted); }
+
+    /* ── RECRUITMENT ── */
+    #jobs { background: var(--navy-dark); position: relative; overflow: hidden; }
+    #jobs::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+    #jobs .section-title { color: #fff; }
+    #jobs .eyebrow { color: var(--red-light); }
+    .jobs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+    .jobs-pitch { color: rgba(255,255,255,.65); font-size: 15px; line-height: 1.8; }
+    .jobs-pitch p { margin-bottom: 16px; }
+    .perks { list-style: none; margin-top: 24px; display: flex; flex-direction: column; gap: 12px; }
+    .perks li {
+      display: flex; align-items: center; gap: 12px;
+      color: rgba(255,255,255,.8); font-size: 14px;
+    }
+    .perk-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); flex-shrink: 0; }
+
+    /* Job form */
+    .job-form { position: relative; z-index: 2; }
+    .job-form-inner {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 20px; padding: 36px;
+      backdrop-filter: blur(8px);
+    }
+    .form-group { margin-bottom: 14px; }
+    .form-label { display: block; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: 6px; }
+    .form-control {
+      width: 100%; padding: 11px 16px;
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
+      border-radius: 8px; color: #fff; font-size: 14px; font-family: 'Inter', sans-serif;
+      transition: border-color .2s, background .2s; outline: none;
+    }
+    .form-control::placeholder { color: rgba(255,255,255,.3); }
+    .form-control:focus { border-color: var(--red); background: rgba(255,255,255,.11); }
+    select.form-control option { background: var(--navy-dark); color: #fff; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .hp-field { position:absolute;left:-9999px;opacity:0;height:0;width:0;pointer-events:none; }
+    .captcha-row {
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 8px; padding: 12px 16px; margin-bottom: 14px; font-size: 13px; color: rgba(255,255,255,.6);
+    }
+    .captcha-check {
+      width: 22px; height: 22px; border: 2px solid rgba(255,255,255,.3);
+      border-radius: 4px; cursor: pointer; display: flex; align-items: center;
+      justify-content: center; transition: all .2s; flex-shrink: 0;
+    }
+    .captcha-check.verified { background: #4CAF50; border-color: #4CAF50; }
+    .captcha-check svg { width: 14px; height: 14px; stroke: #fff; stroke-width: 2.5; display: none; }
+    .captcha-check.verified svg { display: block; }
+    .submit-btn {
+      width: 100%; padding: 14px;
+      background: linear-gradient(135deg, var(--red) 0%, #b52d10 100%);
+      color: #fff; border: none; border-radius: 8px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 18px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+      cursor: pointer; transition: opacity .2s, transform .15s;
+    }
+    .submit-btn:hover:not(:disabled) { opacity: .9; transform: translateY(-1px); }
+    .submit-btn:disabled { opacity: .4; cursor: not-allowed; }
+    .form-msg { padding: 12px 16px; border-radius: 8px; font-size: 14px; margin-top: 10px; display: none; }
+    .form-msg.success { background: rgba(76,175,80,.15); color: #81c784; border: 1px solid rgba(76,175,80,.3); }
+    .form-msg.error { background: rgba(244,67,54,.12); color: #ef9a9a; border: 1px solid rgba(244,67,54,.25); }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--off); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+    .contact-detail { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px; }
+    .contact-icon {
+      width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0;
+      background: var(--navy); display: flex; align-items: center; justify-content: center;
+    }
+    .contact-icon svg { width: 20px; height: 20px; stroke: white; stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .contact-detail-body { font-size: 14px; color: var(--muted); line-height: 1.7; }
+    .contact-detail-label { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--navy); margin-bottom: 3px; }
+    .obfuscated { cursor: pointer; color: var(--red); text-decoration: underline dotted; }
+    .shield-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 28px; }
+    .shield-badge { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); background: #fff; border: 1px solid rgba(26,43,109,.1); border-radius: 20px; padding: 5px 12px; }
+    .shield-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--red); }
+
+    /* Contact form (light version) */
+    .contact-form .form-label { color: var(--muted); }
+    .contact-form .form-control { background: #fff; border: 1px solid rgba(26,43,109,.15); color: var(--text); }
+    .contact-form .form-control::placeholder { color: #b0b8cc; }
+    .contact-form .form-control:focus { border-color: var(--red); }
+    .contact-form .captcha-row { background: #fff; border: 1px solid rgba(26,43,109,.12); color: var(--muted); }
+    .contact-form .captcha-check { border-color: #c0c8d8; }
+    .contact-form .submit-btn { margin-top: 4px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy-dark);
+      color: rgba(255,255,255,.4);
+      text-align: center; padding: 28px 2rem; font-size: 13px;
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+    footer span { color: var(--red); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      .about-grid, .jobs-grid, .contact-grid { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .hero-stat-divider { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <!-- Logo SVG (navy wordmark + red swoosh) -->
+    <svg viewBox="0 0 260 60" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Demotrans">
+      <text x="0" y="44" font-family="'Barlow Condensed', Arial, sans-serif" font-weight="800" font-size="46" fill="#ffffff" letter-spacing="1">DEMOTRANS</text>
+      <path d="M 30 54 Q 130 44 230 54" stroke="#d63b1f" stroke-width="4" fill="none" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <div class="nav-links">
+    <a href="#about" id="nav-about">O nas</a>
+    <a href="#services" id="nav-services">Usługi</a>
+    <a href="#jobs" id="nav-jobs">Praca</a>
+    <a href="#contact" id="nav-contact">Kontakt</a>
+  </div>
+  <div class="lang-switch">
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn active" onclick="setLang('pl')">PL</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-logo-wrap">
+    <!-- Large logo with animated swoosh -->
+    <svg viewBox="0 0 560 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Demotrans">
+      <text x="0" y="96" font-family="'Barlow Condensed', Arial, sans-serif" font-weight="800" font-size="100" fill="#ffffff" letter-spacing="2">DEMOTRANS</text>
+      <path class="swoosh-path" d="M 60 116 Q 280 92 500 116" stroke="#d63b1f" stroke-width="7" fill="none" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <p class="hero-tagline" id="hero-sub">Spedycja &amp; Transport — Oleśnica, Polska</p>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-num">1996</span>
+      <span class="hero-stat-label" id="stat-founded">Rok założenia</span>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">200+</span>
+      <span class="hero-stat-label" id="stat-trucks">Pojazdów w flocie</span>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">30+</span>
+      <span class="hero-stat-label" id="stat-years">Lat doświadczenia</span>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">EU</span>
+      <span class="hero-stat-label" id="stat-reach">Zasięg w Europie</span>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    <span id="scroll-hint">Przewiń</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="reveal">
+        <span class="eyebrow" id="about-eyebrow">Kim jesteśmy</span>
+        <h2 class="section-title" id="about-title">Logistyka, która <em>nie stoi w miejscu</em></h2>
+        <div class="about-body">
+          <p id="about-p1">Od 1996 roku budujemy zaufanie jako partner logistyczny polskich i europejskich przedsiębiorstw. Specjalizujemy się w międzynarodowej spedycji drogowej, magazynowaniu i przesyłkach kurierskich.</p>
+          <p id="about-p2">Nasz tabor ponad 200 nowoczesnych pojazdów wyposażonych w telematykę Trimble zapewnia śledzenie ładunków w czasie rzeczywistym i terminowe dostawy na terenie całej Europy.</p>
+        </div>
+      </div>
+      <div class="stat-row reveal">
+        <div class="stat-tile"><div class="stat-tile-num">1996</div><div class="stat-tile-label" id="s-founded">Rok założenia</div></div>
+        <div class="stat-tile"><div class="stat-tile-num">200+</div><div class="stat-tile-label" id="s-trucks">Pojazdów w flocie</div></div>
+        <div class="stat-tile"><div class="stat-tile-num">30+</div><div class="stat-tile-label" id="s-years">Lat na rynku</div></div>
+        <div class="stat-tile"><div class="stat-tile-num">EU</div><div class="stat-tile-label" id="s-reach">Zasięg europejski</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-inner">
+    <span class="eyebrow" id="srv-eyebrow">Co oferujemy</span>
+    <h2 class="section-title" id="services-title">Nasze <em>usługi</em></h2>
+    <div class="services-grid">
+
+      <div class="service-card reveal">
+        <div class="service-icon-wrap">
+          <!-- Globe / international truck icon -->
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div class="service-card-title" id="s2-title">Spedycja międzynarodowa</div>
+        <p class="service-card-desc" id="s2-desc">Transport transgraniczny w całej Europie — LCL, FCL oraz ładunki ponadgabarytowe. Pełna obsługa celna i dokumentacyjna.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon-wrap">
+          <!-- Warehouse icon -->
+          <svg viewBox="0 0 24 24"><path d="M3 9.5L12 4l9 5.5V20H3V9.5z"/><path d="M9 20V12h6v8"/></svg>
+        </div>
+        <div class="service-card-title" id="s3-title">Magazynowanie</div>
+        <p class="service-card-desc" id="s3-desc">Bezpieczne składowanie i dystrybucja z naszego centrum logistycznego w Oleśnicy. Nowoczesna infrastruktura i zarządzanie stanami magazynowymi.</p>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-icon-wrap">
+          <!-- Package / courier icon -->
+          <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        </div>
+        <div class="service-card-title" id="s4-title">Przesyłki kurierskie</div>
+        <p class="service-card-desc" id="s4-desc">Szybkie i śledzone przesyłki kurierskie dla pilnych paczek i dokumentów. Dostawa door-to-door na terenie Europy.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- RECRUITMENT -->
+<section id="jobs">
+  <div class="section-inner" style="position:relative;z-index:2;">
+    <div class="jobs-grid">
+      <div class="reveal">
+        <span class="eyebrow" id="jobs-eyebrow">Dołącz do nas</span>
+        <h2 class="section-title" id="jobs-title">Szukamy <em>kierowców</em></h2>
+        <div class="jobs-pitch">
+          <p id="jobs-p1">Rozwijamy się i stale poszukujemy doświadczonych kierowców kategorii C i CE. Oferujemy stabilne zatrudnienie, nowoczesny tabor i przyjazną atmosferę pracy.</p>
+          <p id="jobs-p2">Jeśli cenisz sobie pewność zatrudnienia i regularne trasy po Europie — wyślij nam swoje zgłoszenie.</p>
+        </div>
+        <ul class="perks">
+          <li><span class="perk-dot"></span><span id="perk1">Umowa o pracę lub kontrakt B2B</span></li>
+          <li><span class="perk-dot"></span><span id="perk2">Nowoczesne ciągniki siodłowe z telematyką</span></li>
+          <li><span class="perk-dot"></span><span id="perk3">Regularne trasy międzynarodowe (UE)</span></li>
+          <li><span class="perk-dot"></span><span id="perk4">Konkurencyjne wynagrodzenie + diety</span></li>
+          <li><span class="perk-dot"></span><span id="perk5">Wsparcie dyspozytorskie 24/7</span></li>
+        </ul>
+      </div>
+
+      <div class="job-form reveal">
+        <div class="job-form-inner">
+          <input class="hp-field" type="text" id="hp-job" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"/>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" id="lbl-fname">Imię i nazwisko</label>
+              <input class="form-control" type="text" id="j-name" placeholder="Jan Kowalski"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label" id="lbl-fphone">Telefon</label>
+              <input class="form-control" type="tel" id="j-phone" placeholder="+48 600 000 000"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" id="lbl-femail">E-mail</label>
+            <input class="form-control" type="email" id="j-email" placeholder="jan@email.pl"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" id="lbl-fcat">Kategoria prawa jazdy</label>
+            <select class="form-control" id="j-cat">
+              <option value="" id="lbl-pick">-- Wybierz --</option>
+              <option value="C">C</option>
+              <option value="CE">CE</option>
+              <option value="C+CE">C + CE</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" id="lbl-fexp">Doświadczenie (lata)</label>
+            <select class="form-control" id="j-exp">
+              <option value="" id="lbl-exp0">-- Wybierz --</option>
+              <option value="0-2" id="lbl-exp1">0–2 lata</option>
+              <option value="2-5" id="lbl-exp2">2–5 lat</option>
+              <option value="5+" id="lbl-exp3">5+ lat</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" id="lbl-fmsg">Kilka słów o sobie (opcjonalnie)</label>
+            <textarea class="form-control" id="j-msg" rows="3" placeholder="Krótko o Twoim doświadczeniu..."></textarea>
+          </div>
+          <div class="captcha-row" id="job-captcha-row">
+            <div class="captcha-check" id="job-captcha-box" onclick="toggleJobCaptcha()" role="checkbox" aria-checked="false" tabindex="0">
+              <svg viewBox="0 0 14 14" fill="none"><polyline points="2 7 6 11 12 3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <span id="lbl-captcha">Nie jestem robotem</span>
+            <span style="margin-left:auto;font-size:11px;opacity:.5;">🛡️ Protected</span>
+          </div>
+          <button class="submit-btn" id="j-btn" onclick="submitJob()" disabled id="lbl-send">Wyślij zgłoszenie</button>
+          <div class="form-msg" id="job-msg"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div class="reveal">
+        <span class="eyebrow" id="cnt-eyebrow">Napisz do nas</span>
+        <h2 class="section-title" id="contact-title">Kontakt</h2>
+        <div class="contact-detail">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div>
+            <div class="contact-detail-label" id="cnt-addr-lbl">Adres</div>
+            <div class="contact-detail-body">ul. Wojska Polskiego 56P<br>56-400 Oleśnica<br>Dolny Śląsk, Polska</div>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.9A16 16 0 0 0 15.1 16.1l.81-.81a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <div>
+            <div class="contact-detail-label" id="cnt-phone-lbl">Telefon</div>
+            <div class="contact-detail-body" id="phone-reveal">
+              <span class="obfuscated" onclick="revealPhone(this)" id="phone-hint">🔒 Kliknij, aby pokazać numer</span>
+            </div>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div>
+            <div class="contact-detail-label" id="cnt-email-lbl">E-mail</div>
+            <div class="contact-detail-body" id="email-reveal">
+              <span class="obfuscated" onclick="revealEmail(this)" id="email-hint">🔒 Kliknij, aby pokazać e-mail</span>
+            </div>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <div>
+            <div class="contact-detail-label">WWW</div>
+            <div class="contact-detail-body"><a href="https://www.demotrans.pl" target="_blank" rel="noopener" style="color:var(--red);">www.demotrans.pl</a></div>
+          </div>
+        </div>
+        <div class="shield-badges">
+          <div class="shield-badge"><span class="shield-dot"></span><span id="badge1">Ochrona przed spamem</span></div>
+          <div class="shield-badge"><span class="shield-dot"></span><span id="badge2">Filtr botów aktywny</span></div>
+          <div class="shield-badge"><span class="shield-dot"></span><span id="badge3">Dane szyfrowane</span></div>
+        </div>
+      </div>
+
+      <div class="contact-form reveal">
+        <input class="hp-field" type="text" id="hp-contact" name="website2" tabindex="-1" autocomplete="off" aria-hidden="true"/>
+        <div class="form-group">
+          <label class="form-label" id="lbl-cname">Imię i nazwisko</label>
+          <input class="form-control" type="text" id="c-name" placeholder="Jan Kowalski"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label" id="lbl-cemail">E-mail</label>
+          <input class="form-control" type="email" id="c-email" placeholder="jan@firma.pl"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label" id="lbl-ccompany">Firma (opcjonalnie)</label>
+          <input class="form-control" type="text" id="c-company" placeholder="Nazwa firmy"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label" id="lbl-cmsg">Wiadomość</label>
+          <textarea class="form-control" id="c-msg" rows="4" placeholder="Opisz swoją przesyłkę lub zapytanie..."></textarea>
+        </div>
+        <div class="captcha-row contact-form">
+          <div class="captcha-check" id="cnt-captcha-box" onclick="toggleCntCaptcha()" role="checkbox" aria-checked="false" tabindex="0">
+            <svg viewBox="0 0 14 14" fill="none" stroke="white"><polyline points="2 7 6 11 12 3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span id="lbl-ccaptcha">Nie jestem robotem</span>
+          <span style="margin-left:auto;font-size:11px;opacity:.4;">🛡️ Protected</span>
+        </div>
+        <button class="submit-btn" id="c-btn" onclick="submitContact()" disabled>
+          <span id="lbl-csend">Wyślij wiadomość</span>
+        </button>
+        <div class="form-msg" id="cnt-msg"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 <span>DEMOTRANS</span> Spedycja &amp; Transport — Oleśnica, Polska. Wszelkie prawa zastrzeżone.</p>
+</footer>
+
+<script>
+/* ── Scroll reveal ── */
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+},{threshold:.12});
+revealEls.forEach(el=>io.observe(el));
+
+/* ── Contact obfuscation ── */
+const _c = { e1:'demotrans', e2:'demotrans', e3:'pl', p1:'+48 (71) 399', p2:' 99 88' };
+function revealEmail(el){ el.parentNode.innerHTML='<a href="mailto:'+_c.e1+'@'+_c.e2+'.'+_c.e3+'" style="color:var(--red);">'+_c.e1+'@'+_c.e2+'.'+_c.e3+'</a>'; }
+function revealPhone(el){ el.parentNode.innerHTML=_c.p1+_c.p2+'<br>+48 (71) 399 99 89'; }
+
+/* ── Captcha ── */
+let jobCaptcha=false, cntCaptcha=false;
+function toggleJobCaptcha(){
+  jobCaptcha=!jobCaptcha;
+  const b=document.getElementById('job-captcha-box');
+  b.classList.toggle('verified',jobCaptcha); b.setAttribute('aria-checked',jobCaptcha);
+  document.getElementById('j-btn').disabled=!jobCaptcha;
+}
+function toggleCntCaptcha(){
+  cntCaptcha=!cntCaptcha;
+  const b=document.getElementById('cnt-captcha-box');
+  b.classList.toggle('verified',cntCaptcha); b.setAttribute('aria-checked',cntCaptcha);
+  document.getElementById('c-btn').disabled=!cntCaptcha;
+}
+
+/* ── Rate limiting ── */
+let lastJob=0, lastCnt=0;
+
+function submitJob(){
+  const now=Date.now();
+  if(document.getElementById('hp-job').value) return;
+  if(now-lastJob<30000){showMsg('job-msg','error',cur==='pl'?'Zbyt wiele prób.':'Too many attempts.');return;}
+  const name=document.getElementById('j-name').value.trim();
+  const phone=document.getElementById('j-phone').value.trim();
+  const email=document.getElementById('j-email').value.trim();
+  const cat=document.getElementById('j-cat').value;
+  if(!name||!phone||!email||!cat){showMsg('job-msg','error',cur==='pl'?'Proszę wypełnić wymagane pola.':'Please fill required fields.');return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showMsg('job-msg','error',cur==='pl'?'Nieprawidłowy e-mail.':'Invalid email.');return;}
+  lastJob=now;
+  const btn=document.getElementById('j-btn');
+  btn.disabled=true; btn.textContent=cur==='pl'?'Wysyłanie…':'Sending…';
+  /*
+  ╔═══════════════════════════════════════════════════════╗
+  ║ TODO: Connect to Web3Forms                           ║
+  ║ fetch('https://api.web3forms.com/submit', {          ║
+  ║   method:'POST',                                     ║
+  ║   headers:{'Content-Type':'application/json'},       ║
+  ║   body: JSON.stringify({                             ║
+  ║     access_key:'YOUR_KEY', name, email,              ║
+  ║     phone, category: cat                             ║
+  ║   })                                                 ║
+  ║ })                                                   ║
+  ╚═══════════════════════════════════════════════════════╝
+  */
+  setTimeout(()=>{
+    showMsg('job-msg','success',cur==='pl'?'Dziękujemy! Skontaktujemy się wkrótce.':'Thank you! We\'ll be in touch.');
+    ['j-name','j-phone','j-email','j-msg'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('j-cat').value=''; document.getElementById('j-exp').value='';
+    jobCaptcha=false; document.getElementById('job-captcha-box').classList.remove('verified');
+    btn.textContent=cur==='pl'?'Wyślij zgłoszenie':'Send Application';
+  },1200);
+}
+
+function submitContact(){
+  const now=Date.now();
+  if(document.getElementById('hp-contact').value) return;
+  if(now-lastCnt<30000){showMsg('cnt-msg','error',cur==='pl'?'Zbyt wiele prób.':'Too many attempts.');return;}
+  const name=document.getElementById('c-name').value.trim();
+  const email=document.getElementById('c-email').value.trim();
+  const msg=document.getElementById('c-msg').value.trim();
+  if(!name||!email||!msg){showMsg('cnt-msg','error',cur==='pl'?'Proszę wypełnić wymagane pola.':'Please fill required fields.');return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showMsg('cnt-msg','error',cur==='pl'?'Nieprawidłowy e-mail.':'Invalid email.');return;}
+  lastCnt=now;
+  const btn=document.getElementById('c-btn');
+  btn.disabled=true; btn.querySelector('span').textContent=cur==='pl'?'Wysyłanie…':'Sending…';
+  setTimeout(()=>{
+    showMsg('cnt-msg','success',cur==='pl'?'Dziękujemy! Odpiszemy wkrótce.':'Thank you! We\'ll get back to you shortly.');
+    ['c-name','c-email','c-company','c-msg'].forEach(id=>document.getElementById(id).value='');
+    cntCaptcha=false; document.getElementById('cnt-captcha-box').classList.remove('verified');
+    btn.querySelector('span').textContent=cur==='pl'?'Wyślij wiadomość':'Send Message';
+  },1200);
+}
+
+function showMsg(id,type,text){
+  const el=document.getElementById(id);
+  el.className='form-msg '+type; el.textContent=text; el.style.display='block';
+  setTimeout(()=>{el.style.display='none';},5000);
+}
+
+/* ── i18n ── */
+let cur='pl';
+const T={
+  en:{
+    'nav-about':'About','nav-services':'Services','nav-jobs':'Jobs','nav-contact':'Contact',
+    'hero-sub':'Spedycja & Transport — Oleśnica, Poland',
+    'stat-founded':'Founded','stat-trucks':'Trucks in fleet','stat-years':'Years of experience','stat-reach':'Europe-wide reach',
+    'scroll-hint':'Scroll',
+    'about-eyebrow':'Who we are','about-title':'Logistics that never stands still',
+    'about-p1':'Since 1996 we have been building trust as a logistics partner for Polish and European businesses. We specialise in international road freight, warehousing and courier services.',
+    'about-p2':'Our fleet of 200+ modern vehicles equipped with Trimble telematics ensures real-time cargo tracking and on-time delivery across Europe.',
+    's-founded':'Founded','s-trucks':'Vehicles in fleet','s-years':'Years in business','s-reach':'European reach',
+    'srv-eyebrow':'What we offer','services-title':'Our services',
+    's2-title':'International Forwarding','s2-desc':'Cross-border transport throughout Europe — LCL, FCL and oversized cargo. Full customs and documentation handling.',
+    's3-title':'Warehousing','s3-desc':'Secure storage and distribution from our logistics hub in Oleśnica. Modern infrastructure and inventory management.',
+    's4-title':'Courier Shipments','s4-desc':'Fast tracked courier deliveries for urgent parcels and documents. Door-to-door across Europe.',
+    'jobs-eyebrow':'Join us','jobs-title':'We\'re hiring drivers',
+    'jobs-p1':'We are growing and continuously looking for experienced category C and CE drivers. We offer stable employment, a modern fleet and a friendly work environment.',
+    'jobs-p2':'If you value job security and regular routes across Europe — send us your application.',
+    'perk1':'Employment contract or B2B','perk2':'Modern trucks with telematics',
+    'perk3':'Regular international routes (EU)','perk4':'Competitive pay + allowances','perk5':'24/7 dispatcher support',
+    'lbl-fname':'Full name','lbl-fphone':'Phone','lbl-femail':'E-mail',
+    'lbl-fcat':'Licence category','lbl-pick':'-- Select --',
+    'lbl-fexp':'Experience (years)','lbl-exp0':'-- Select --','lbl-exp1':'0–2 years','lbl-exp2':'2–5 years','lbl-exp3':'5+ years',
+    'lbl-fmsg':'A few words about yourself (optional)',
+    'lbl-captcha':'I am not a robot',
+    'j-name':'John Smith','j-phone':'+48 600 000 000','j-email':'john@email.com',
+    'j-msg':'Brief info about your experience...',
+    'lbl-send':'Send Application',
+    'cnt-eyebrow':'Get in touch','contact-title':'Contact',
+    'cnt-addr-lbl':'Address','cnt-phone-lbl':'Phone','cnt-email-lbl':'E-mail',
+    'phone-hint':'🔒 Click to show phone','email-hint':'🔒 Click to show email',
+    'badge1':'Spam protected','badge2':'Bot filter active','badge3':'Data encrypted',
+    'lbl-cname':'Full name','lbl-cemail':'E-mail','lbl-ccompany':'Company (optional)',
+    'lbl-cmsg':'Message','lbl-ccaptcha':'I am not a robot','lbl-csend':'Send Message',
+    'c-name':'Jan Kowalski','c-email':'jan@firma.pl','c-company':'Company name',
+    'c-msg':'Describe your shipment or enquiry...',
+  },
+  pl:{
+    'nav-about':'O nas','nav-services':'Usługi','nav-jobs':'Praca','nav-contact':'Kontakt',
+    'hero-sub':'Spedycja & Transport — Oleśnica, Polska',
+    'stat-founded':'Rok założenia','stat-trucks':'Pojazdów w flocie','stat-years':'Lat doświadczenia','stat-reach':'Zasięg w Europie',
+    'scroll-hint':'Przewiń',
+    'about-eyebrow':'Kim jesteśmy','about-title':'Logistyka, która nie stoi w miejscu',
+    'about-p1':'Od 1996 roku budujemy zaufanie jako partner logistyczny polskich i europejskich przedsiębiorstw. Specjalizujemy się w międzynarodowej spedycji drogowej, magazynowaniu i przesyłkach kurierskich.',
+    'about-p2':'Nasz tabor ponad 200 nowoczesnych pojazdów wyposażonych w telematykę Trimble zapewnia śledzenie ładunków w czasie rzeczywistym i terminowe dostawy na terenie całej Europy.',
+    's-founded':'Rok założenia','s-trucks':'Pojazdów w flocie','s-years':'Lat na rynku','s-reach':'Zasięg europejski',
+    'srv-eyebrow':'Co oferujemy','services-title':'Nasze usługi',
+    's2-title':'Spedycja międzynarodowa','s2-desc':'Transport transgraniczny w całej Europie — LCL, FCL oraz ładunki ponadgabarytowe. Pełna obsługa celna i dokumentacyjna.',
+    's3-title':'Magazynowanie','s3-desc':'Bezpieczne składowanie i dystrybucja z naszego centrum logistycznego w Oleśnicy. Nowoczesna infrastruktura i zarządzanie stanami magazynowymi.',
+    's4-title':'Przesyłki kurierskie','s4-desc':'Szybkie i śledzone przesyłki kurierskie dla pilnych paczek i dokumentów. Dostawa door-to-door na terenie Europy.',
+    'jobs-eyebrow':'Dołącz do nas','jobs-title':'Szukamy kierowców',
+    'jobs-p1':'Rozwijamy się i stale poszukujemy doświadczonych kierowców kategorii C i CE. Oferujemy stabilne zatrudnienie, nowoczesny tabor i przyjazną atmosferę pracy.',
+    'jobs-p2':'Jeśli cenisz sobie pewność zatrudnienia i regularne trasy po Europie — wyślij nam swoje zgłoszenie.',
+    'perk1':'Umowa o pracę lub kontrakt B2B','perk2':'Nowoczesne ciągniki siodłowe z telematyką',
+    'perk3':'Regularne trasy międzynarodowe (UE)','perk4':'Konkurencyjne wynagrodzenie + diety','perk5':'Wsparcie dyspozytorskie 24/7',
+    'lbl-fname':'Imię i nazwisko','lbl-fphone':'Telefon','lbl-femail':'E-mail',
+    'lbl-fcat':'Kategoria prawa jazdy','lbl-pick':'-- Wybierz --',
+    'lbl-fexp':'Doświadczenie (lata)','lbl-exp0':'-- Wybierz --','lbl-exp1':'0–2 lata','lbl-exp2':'2–5 lat','lbl-exp3':'5+ lat',
+    'lbl-fmsg':'Kilka słów o sobie (opcjonalnie)',
+    'lbl-captcha':'Nie jestem robotem',
+    'j-name':'Jan Kowalski','j-phone':'+48 600 000 000','j-email':'jan@email.pl',
+    'j-msg':'Krótko o Twoim doświadczeniu...',
+    'lbl-send':'Wyślij zgłoszenie',
+    'cnt-eyebrow':'Napisz do nas','contact-title':'Kontakt',
+    'cnt-addr-lbl':'Adres','cnt-phone-lbl':'Telefon','cnt-email-lbl':'E-mail',
+    'phone-hint':'🔒 Kliknij, aby pokazać numer','email-hint':'🔒 Kliknij, aby pokazać e-mail',
+    'badge1':'Ochrona przed spamem','badge2':'Filtr botów aktywny','badge3':'Dane szyfrowane',
+    'lbl-cname':'Imię i nazwisko','lbl-cemail':'E-mail','lbl-ccompany':'Firma (opcjonalnie)',
+    'lbl-cmsg':'Wiadomość','lbl-ccaptcha':'Nie jestem robotem','lbl-csend':'Wyślij wiadomość',
+    'c-name':'Jan Kowalski','c-email':'jan@firma.pl','c-company':'Nazwa firmy',
+    'c-msg':'Opisz swoją przesyłkę lub zapytanie...',
+  }
+};
+
+function setLang(lang){
+  cur=lang;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.lang-btn:'+(lang==='en'?'first':'last')+'-child').classList.add('active');
+  const d=T[lang];
+  for(const [id,val] of Object.entries(d)){
+    const el=document.getElementById(id);
+    if(!el) continue;
+    if(el.tagName==='INPUT'||el.tagName==='TEXTAREA') el.placeholder=val;
+    else if(el.tagName==='OPTION') el.textContent=val;
+    else el.textContent=val;
+  }
+  // Update about-title with em tag
+  const at=document.getElementById('about-title');
+  if(at) at.innerHTML=lang==='pl'?'Logistyka, która <em>nie stoi w miejscu</em>':'Logistics that <em>never stands still</em>';
+  const jt=document.getElementById('jobs-title');
+  if(jt) jt.innerHTML=lang==='pl'?'Szukamy <em>kierowców</em>':'We\'re hiring <em>drivers</em>';
+  const st=document.getElementById('services-title');
+  if(st) st.innerHTML=lang==='pl'?'Nasze <em>usługi</em>':'Our <em>services</em>';
+}
+</script>
+</body>
+</html>
